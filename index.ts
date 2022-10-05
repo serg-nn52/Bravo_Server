@@ -8,6 +8,7 @@ const jsonParser = express.json();
 const app = express();
 app.use(cors());
 const filePath = "data.json";
+const usersPath = "users.json";
 const PORT = process.env.PORT || 5000;
 const corsReq = cors();
 
@@ -16,6 +17,22 @@ type TBooksType = {
   name: string;
   title: string;
 };
+type TUsersType = {
+  id: string;
+  name: string;
+};
+
+// GET - request users----------------------------------------------
+
+app.get("/api/users", corsReq, (req, res) => {
+  try {
+    const content = fs.readFileSync(usersPath, "utf-8");
+    const users: TUsersType[] = JSON.parse(content);
+    res.send(users);
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
 
 // GET - request----------------------------------------------
 
