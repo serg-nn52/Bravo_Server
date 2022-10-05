@@ -12,8 +12,20 @@ const jsonParser = express_1.default.json();
 const app = (0, express_1.default)();
 app.use(cors());
 const filePath = "data.json";
+const usersPath = "users.json";
 const PORT = process.env.PORT || 5000;
 const corsReq = cors();
+// GET - request users----------------------------------------------
+app.get("/api/users", corsReq, (req, res) => {
+    try {
+        const content = fs_1.default.readFileSync(usersPath, "utf-8");
+        const users = JSON.parse(content);
+        res.send(users);
+    }
+    catch (err) {
+        res.status(400).send(err);
+    }
+});
 // GET - request----------------------------------------------
 app.get("/api/books", corsReq, (req, res) => {
     try {
